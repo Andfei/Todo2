@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="{% url 'update_todo' todo_id = form.instanse.id%}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">create_todo</button>
+</form>
+{% endblock %}
