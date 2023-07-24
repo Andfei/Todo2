@@ -9,8 +9,8 @@ class TodoForm(forms.ModelForm):
         fields = ["id", "name", "description", "user", "complete"]
 
 
-    def clean_title(self):
-        if len(self.cleaned_data.get('name  ')) < 2:
+    def clean_name(self):
+        if len(self.cleaned_data.get('name')) < 2:
             raise ValidationError('error')
         return self.cleaned_data.get('name')
 

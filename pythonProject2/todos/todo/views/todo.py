@@ -4,12 +4,12 @@ from django.shortcuts import render, redirect
 from django.views.decorators.cache import cache_page
 from todo.forms import TodoForm, TodoUpdateForm
 from todo.models import Todo
-
-
+from todo.tasks import logging_task
 
 
 @cache_page(60 * 15)
 def todo(request):
+    logging_task.delay(params=["Todos function called"])
     return render(request, "todos.html", {"todo": Todo.objects.all()})
 
 def create_todo(request):

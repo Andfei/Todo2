@@ -1,10 +1,14 @@
-
-from django.contrib.auth.models import User
-
+from random import random
 from .models import Todo
+import datetime
+import random
+from django.contrib.auth.models import User
+from .utils import generate_text, build_generator
 
 
-def create_initial_db():
+
+
+def create_initial_db(datetime=None):
     users = []
     users.extend([
         User.objects.create_user(
@@ -38,3 +42,26 @@ def create_initial_db():
             is_active=True
         )
     ])
+
+    todos = []
+    for user in users:
+        todo = Todo(
+            name=f"{user.username}'s todo",
+            author=user,
+            created_date=datetime.date.today().replace(
+                year=random.randint(2005, 2023),
+                month=random.randint(1, 12),
+                day=random.randint(1, 28)
+            )
+        )
+        todo.save()
+        todos.append(todo)
+
+    for todo in todos:
+        generator = build_generator()
+        for _ in range(random.randint(4, 200)):
+            Todo(
+                name = generate_text(generator, random.randint(1, 20)),
+                description = generate_text(generator, random.randint(1, 100)),
+                user = generate_text(generator, random.randint(1, 100)),
+            ).save()

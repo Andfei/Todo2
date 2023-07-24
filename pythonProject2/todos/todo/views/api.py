@@ -5,7 +5,7 @@ from django.forms.models import model_to_dict
 from todo.forms import TodoForm, TodoUpdateForm
 
 
-def todo(request):
+def todos(request):
     if request.method == "POST":
         form = TodoForm(request.POST)
         if form.is_valid():
@@ -17,7 +17,7 @@ def todo(request):
     return JsonResponse({'posts':  todo_dict})
 
 
-def todo_one(request, todo_id):
+def todo(request, todo_id):
     try:
         todo_obj = Todo.objects.get(id=todo_id)
     except Exception:
